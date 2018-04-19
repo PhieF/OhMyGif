@@ -65,9 +65,9 @@ else{
 		Image <br /><br /><input type="file" name="giffile" id="giffile"><br /><br />
 		Url (if no file) <br /><input type="text" name="url" /> <br /><br />
 
-		Description <br /><input type="text" name="description" /> <br /><br />
+		Description <br /><input type="text" name="description" id="description"/> <br /><br />
 		
-		<button onclick="hideUploadForm(); return false;" type=button>Cancel</button><input type="submit" /> 
+		<button onclick="hideUploadForm(); return false;" type=button>Cancel</button><input onclick="if(document.getElementById('description').value==''){alert('Description is mandatory'); return false;}"type="submit" /> 
 	</form>
 	</div>
 	</div>
