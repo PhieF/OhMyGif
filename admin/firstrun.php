@@ -19,7 +19,7 @@ and !empty($_POST['password'])){
 	// create table
 	$sql = "CREATE TABLE ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif (
 		id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		url VARCHAR(2083) NOT NULL,
+		url VARCHAR(2083) NOT NULL UNIQUE,
 		original_name VARCHAR(2083) NOT NULL,
 		description TEXT NOT NULL,
 		date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

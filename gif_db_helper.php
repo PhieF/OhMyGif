@@ -3,6 +3,7 @@ require_once('config/config.php');
 
 class GifDBHelper { 
 	function addToDb($url, $keywords, $originalName, $description){
+		$error="";
 		global $CONFIG;
 		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
 		// Check connection
@@ -17,11 +18,11 @@ class GifDBHelper {
 		VALUES ('$url', '$originalName', '$description')";
 
 		if ($conn->query($sql) !== TRUE) {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+			$error= "Error: " . $sql . "<br>" . $conn->error;
 		}
 
 		$conn->close();
-		
+		return $error;
 	}
 	
 	function getLast($start){
@@ -62,11 +63,23 @@ class GifDBHelper {
 		
 	}
 	
+	function isUrlInDB($url){
+		global $CONFIG;
+
+		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		}
+		$url = mysqli_real_escape_string($conn,$url);
+		$sql = "SELECT url FROM ".$CONFIG["table_prefix"]."gif WHERE url = '$url'";
+		$result = $conn->query($sql);
+		return $result->num_rows > 0;
+	}
+	
 	function search($query,$start){
 		global $CONFIG;
 
 		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
-		// Check connection
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
@@ -79,7 +92,6 @@ class GifDBHelper {
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {
-			// output data of each row
 			while($row = $result->fetch_assoc()) {
 				array_push($return,$row);
 			}
