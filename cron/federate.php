@@ -8,7 +8,6 @@
  * (instances must start with http)
  * create a cron job for federation, please one time a day should be enough
  * 
- * $ crontab -e
  * 
  * */
 require_once('../config/config.php'); 

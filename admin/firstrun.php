@@ -64,7 +64,7 @@ and !empty($_POST['password'])){
 	$fp = fopen('../config/config.php', 'w');
 			fwrite($fp, $config);
 			fclose($fp);
-			//header("location: ../");
+			header("location: ../");
 }
 
 
