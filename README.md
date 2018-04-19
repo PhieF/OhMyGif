@@ -3,6 +3,8 @@
 
 Open source Gif repository
 
+test it : https://omg.phie.fi
+
 
 ## Install
 
