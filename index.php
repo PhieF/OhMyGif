@@ -54,6 +54,11 @@ else{
 		
 	</div>
 	</div>
+	<div id="footer">
+		<a href="https://github.com/PhieF/OhMyGif">Sources</a>
+		 <a href="get.php?export=1" download>Export</a>
+
+	</div>
 	<script src="js/index.js">
 
 
