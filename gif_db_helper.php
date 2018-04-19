@@ -25,7 +25,7 @@ class GifDBHelper {
 	}
 	
 	function getLast($start){
-		return $this->get($start,20);
+		return $this->get($start,40);
 		
 	}
 	
@@ -45,7 +45,7 @@ class GifDBHelper {
 				$start = 0;
 			$limit = mysqli_real_escape_string($conn,$limit);
 			if(!is_int($limit))
-				$limit = $start + 20;
+				$limit = $start + 40;
 			$sql .= " limit ".$start.",".$limit;
 		}
 		
