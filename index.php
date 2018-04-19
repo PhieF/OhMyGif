@@ -9,7 +9,7 @@ else{
 	require_once('gif_db_helper.php');
 	$gif_db_helper = new GifDBHelper();
 	$original_name="";
-	if(!empty($_FILES['giffile'])){
+	if(!empty($_FILES['giffile']['name'])){
 		require_once('upload_helper.php'); 
 		$upload = new UploadHelper();
 		$result = $upload->saveUploadedGif($_FILES['giffile']);
