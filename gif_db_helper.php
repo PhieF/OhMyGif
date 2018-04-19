@@ -38,7 +38,7 @@ class GifDBHelper {
 			die("Connection failed: " . $conn->connect_error);
 		}
 		
-		$sql = "SELECT * FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
+		$sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
 		if($start != null){
 			$start = mysqli_real_escape_string($conn,$start);
 			if(!is_int($start))
@@ -75,7 +75,7 @@ class GifDBHelper {
 			$start = 0;
 		$query = mysqli_real_escape_string($conn,$query);
 
-		$sql = "SELECT * FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description) AGAINST ('$query' IN NATURAL LANGUAGE MODE) limit ".$start.",".($start+20);
+		$sql = "SELECT id,url,original_name,description  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description) AGAINST ('$query' IN NATURAL LANGUAGE MODE) limit ".$start.",".($start+20);
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {
