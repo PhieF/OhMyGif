@@ -19,22 +19,22 @@ and !empty($_POST['password'])){
 	// create table
 	$sql = "CREATE TABLE ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif (
 		id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-		url VARCHAR(2083) NOT NULL UNIQUE,
-		original_name VARCHAR(2083) NOT NULL,
+		url VARCHAR(255) NOT NULL UNIQUE,
+		original_name VARCHAR(255) NOT NULL,
 		description TEXT NOT NULL,
 		date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-	)";
+	) ENGINE=MyISAM";
 
 	if ($conn->query($sql) === TRUE) {
 	} else {
-		die("Error creating table: " . $conn->error);
+		die("Error creating table 1: " . $conn->error);
 	}
 	
 	$sql = "CREATE FULLTEXT INDEX ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."fulltext
 		ON ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif (original_name, description)";
 	if ($conn->query($sql) === TRUE) {
 	} else {
-		die("Error creating table: " . $conn->error);
+		die("Error creating table: 2" . $conn->error);
 	}
 	$sql = "CREATE TABLE ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."keywords (
 		gif_id INT(12) UNSIGNED,
@@ -43,11 +43,11 @@ and !empty($_POST['password'])){
 		REFERENCES ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif(id)
 		ON DELETE CASCADE,
 		PRIMARY KEY (gif_id,keyword)
-	)";
+	) ENGINE=MyISAM";
 
 	if ($conn->query($sql) === TRUE) {
 	} else {
-		die("Error creating table: " . $conn->error);
+		die("Error creating table 3: " . $conn->error);
 	}
 	$config='<?php
 		$CONFIG = array (
