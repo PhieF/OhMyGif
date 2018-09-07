@@ -45,3 +45,11 @@ then create a cron job that will run for example once a day (should be enough, t
 ```
 */30  23 *  *  * cd /oh-my-gif-path/cron/ && php federate.php
 ```
+
+## API
+
+[As said here](https://github.com/PhieF/OhMyGif/issues/1#issuecomment-419269820) an API is available at /get.php
+
+<https://omg.phie.ovh/get.php> gives all gif
+
+<https://omg.phie.ovh/get.php?query=criquette> gives all gif that have "criquette" in description or in name
