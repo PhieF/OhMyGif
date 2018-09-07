@@ -52,4 +52,4 @@ then create a cron job that will run for example once a day (should be enough, t
 
 <https://omg.phie.ovh/get.php> gives all gif
 
-<https://omg.phie.ovh/get.php?query=criquette> gives all gif named criquette*.gif (you can put what you want)
+<https://omg.phie.ovh/get.php?query=criquette> gives all gif that have "criquette" in description or in name
