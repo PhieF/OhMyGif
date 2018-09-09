@@ -41,7 +41,22 @@ function createItemElement(gif){
 		} else {
 			img	= document.createElement("video");
 			img.src = gif.video;
-			img.autoplay = true;
+			if(!dontAutoPlay)
+				img.autoplay = true;
+			else {
+				 var playF = function(event) {
+				  if(!img.isPlaying && event.type != "mouseout") {
+					img.play();
+				  }
+				 else if(event.type != "mouseover") {
+					img.pause();
+				  }
+				};
+				img.addEventListener('click', playF);
+				img.addEventListener('mouseover', playF);
+				img.addEventListener('mouseout', playF);
+			}
+			
 			img.loop = true;
 			img.onloadedmetadata = function(){ 
 				remainingToLoad --;
