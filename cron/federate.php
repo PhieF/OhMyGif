@@ -23,6 +23,8 @@ foreach($to_federate as $url){
 			foreach(array_reverse($data) as $item){
 				if(substr($item['url'], 0, 4 ) !== "http")
 					$item['url'] = $url."/".$item['url'];
+				if(substr($item['original_url'], 0, 4 ) !== "http")
+					$item['original_url'] = $url."/".$item['original_url'];
 				echo $item['url'];
 				if((!preg_match('/^[a-f0-9]{32}$/', basename($item['url'],".gif")) || count($gif_db_helper->getByGifFileName(basename($item['url']))) == 0) && !$gif_db_helper->isUrlInDB($item['original_url'])) //if basename is a md5 string, adding even our gif  (they don't have the instance domain name when local...)
 				    $gif_db_helper->addToDb($item['url'], null,$item['original_name'], $item['title'], $item['description'], $item['category'], $item['original_url'], $item['video']);
