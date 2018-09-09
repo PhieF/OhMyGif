@@ -47,7 +47,7 @@ $gif_db_helper = new GifDBHelper();
 $upload = new UploadHelper();
 $i=0;
 while(true){
-	$json = json_decode(get_url("https://api.giphy.com/v1/gifs/trending?api_key=3eFQvabDx69SMoOemSPiYfh9FY0nzO9x&sort=desc&next_cursor=".($i*10)));
+	$json = json_decode(get_url("https://api.giphy.com/v1/gifs/trending?api_key=3eFQvabDx69SMoOemSPiYfh9FY0nzO9x&sort=desc&offset=".($i*25)));
 	foreach($json->data as $item){
 		echo $item->title;
 		echo $item->images->original->url;
