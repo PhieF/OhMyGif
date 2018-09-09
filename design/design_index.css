@@ -1,5 +1,5 @@
 	a{
-		color:white;
+		color:red;
 		text-decoration:none;
 	}
 	 body{
@@ -13,7 +13,7 @@
 	width:100%;
 }
 #gif-grid{
-
+	box-shadow: 1px 1px 10px;
 	margin:auto;
 }
 #main{
@@ -30,8 +30,8 @@ header{
 	padding:0px;
 	height:49px;
 	margin:0px;
-	background:black;
-	color:white;
+	background:white;
+	box-shadow: 1px 1px 5px;
 }
 header h1{
 	padding:5px;
@@ -67,7 +67,7 @@ header .upload{
 	position:absolute;
 	right:10px;
 	top:10px;
-	color:white;
+	color:red;
 	text-decoration:none;
 
 }
@@ -121,6 +121,5 @@ input{
 	height:20px;
 	padding:5px;
 	width:100%;
-	background:black;
 	font-size:10px;
 }

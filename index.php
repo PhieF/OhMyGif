@@ -51,7 +51,7 @@ else{
 
 	<header>
 		<h1>
-		<a href="?">OMG</a>
+		<a href="?">Oh My Gif !</a>
 		</h1>
 		<form action="" method="get"><input placeholder="Search a gif" name="query" value="" hint="search"/></form>
 		<a href="" class="upload" onclick="displayUploadForm(); return false;"><img style="vertical-align:middle" src="img/upload.svg"/><span>Upload</span></a>
