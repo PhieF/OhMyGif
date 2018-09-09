@@ -40,7 +40,8 @@ header h1{
 	margin:0px;
 }
 header input{
-	width:300px;
+	width:calc(100% - 30px);
+	max-width:300px;
 	position:absolute;
 	left:50%;
 	margin-left:-150px;
@@ -49,10 +50,20 @@ header input{
 	border-radius: 4px;
 	padding:5px;
 }
+@media only screen and (max-width: 600px) {
+	header input{
+		width:calc(100% - 30px);
+		max-width:180px;
+		position:absolute;
+		left:5px;
+		margin-left:0;
+		
+	}
+}
 header .upload{
 	position:absolute;
 	right:10px;
-	top:7px;
+	top:10px;
 	color:white;
 	text-decoration:none;
 
