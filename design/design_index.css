@@ -59,6 +59,9 @@ header input{
 		margin-left:0;
 		
 	}
+	header h1{
+		display:none;
+	}
 }
 header .upload{
 	position:absolute;
