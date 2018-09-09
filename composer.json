@@ -1,5 +1,8 @@
 {
     "require": {
         "php-ffmpeg/php-ffmpeg": "^0.12.0"
+    },
+    "config": {
+        "process-timeout": 2000
     }
 }
