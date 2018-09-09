@@ -1,5 +1,5 @@
 var grid = document.getElementById("gif-grid");
-const dontAutoPlay = true;
+const dontAutoPlay = false;
 var msnry = new Masonry( '#gif-grid', { itemSelector: ".grid-item", columnWidth: 300 ,fitWidth: true});
 function getParameterByName(name, url) {
 	if (!url) {
