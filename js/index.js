@@ -64,14 +64,25 @@ function createItemElement(url){
 		};
 		xhr.send();
 	};
-	var url = "get.php";
-	var query = getParameterByName("query");
-	if(query != null)
-		url += "?query="+query;
-	getJSON(url,function(status, data){
-		for(var gif of data){
-				addItemElement(gif['url']);
-		}
-	});
+	var current = 0;	
+	var getList = function(start){
+		current = start;
+		var url = "get.php?start="+start;
+		var query = getParameterByName("query");
+		if(query != null)
+			url += "&query="+query;
+		getJSON(url,function(status, data){
+			for(var gif of data){
+					addItemElement(gif['url']);
+			}
+			
+		});
+	}
+	getList(0);
+	window.onscroll = function(ev) {
+	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-200) {
+		getList(current+20);
+	    }
+	};
 
 

@@ -26,7 +26,7 @@ class GifDBHelper {
 	}
 	
 	function getLast($start){
-		return $this->get($start,80);
+		return $this->get($start+0,$start+20);
 		
 	}
 	
@@ -38,19 +38,16 @@ class GifDBHelper {
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		
+
 		$sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
-		if($start != null){
-			$start = mysqli_real_escape_string($conn,$start);
+		if(isset($start)){
 			if(!is_int($start))
 				$start = 0;
-			$limit = mysqli_real_escape_string($conn,$limit);
 			if(!is_int($limit))
 				$limit = $start + 40;
 			$sql .= " limit ".$start.",".$limit;
 		}
-		
-		
+
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {
