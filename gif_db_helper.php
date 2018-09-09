@@ -2,7 +2,7 @@
 require_once('config/config.php'); 
 
 class GifDBHelper { 
-	function addToDb($url, $keywords, $originalName, $title, $description, $category, $originalUrl){
+	function addToDb($url, $keywords, $originalName, $title, $description, $category, $originalUrl, $video){
 		$error="";
 		global $CONFIG;
 		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
@@ -16,9 +16,10 @@ class GifDBHelper {
         $category = mysqli_real_escape_string($conn,$category);
         $title = mysqli_real_escape_string($conn,$title);
         $originalUrl = mysqli_real_escape_string($conn,$originalUrl);
+        $video = mysqli_real_escape_string($conn,$video);
 
-		$sql = "INSERT INTO ".$CONFIG["table_prefix"]."gif (url,original_name, description, category, title, original_url)
-		VALUES ('$url', '$originalName', '$description', '$category', '$title','$originalUrl')";
+		$sql = "INSERT INTO ".$CONFIG["table_prefix"]."gif (url, video, original_name, description, category, title, original_url)
+		VALUES ('$url', '$video', '$originalName', '$description', '$category', '$title','$originalUrl')";
 
 		if ($conn->query($sql) !== TRUE) {
 			$error= "Error: " . $sql . "<br>" . $conn->error;
@@ -42,7 +43,7 @@ class GifDBHelper {
 			die("Connection failed: " . $conn->connect_error);
 		}
 
-		$sql = "SELECT id,url,original_name,description, title, original_url, category FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
+		$sql = "SELECT id,url, video,original_name,description, title, original_url, category FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
 		if(isset($start)){
 			if(!is_int($start))
 				$start = 0;
@@ -118,7 +119,7 @@ class GifDBHelper {
 			$start = 0;
 		$query = mysqli_real_escape_string($conn,$query);
 
-		$sql = "SELECT id,url,original_name,description,category, title, original_url  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description) AGAINST ('$query' IN NATURAL LANGUAGE MODE) limit ".$start.",".($start+20);
+		$sql = "SELECT id,url, video,original_name,description,category, title, original_url  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description) AGAINST ('$query' IN NATURAL LANGUAGE MODE) limit ".$start.",".($start+20);
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {

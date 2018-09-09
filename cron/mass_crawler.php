@@ -60,7 +60,7 @@ while(true){
 			echo "error";
 			continue;
 		}
-		echo $gif_db_helper->addToDb($result['url'], array(),'', $item->title,$item->title, '',$item->images->original->url);
+		echo $gif_db_helper->addToDb($result['url'], array(),'', $item->title,$item->title, '',$item->images->original->url, $result['webm']);
 
 	}
 	$i++;

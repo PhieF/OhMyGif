@@ -1,6 +1,6 @@
 <?php
 require_once('config/config.php'); 
-
+require_once 'vendor/autoload.php';
 class UploadHelper { 
 	function saveUploadedGif($file){
 		$uploaddir = 'uploads/';
@@ -14,6 +14,7 @@ class UploadHelper {
 		if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
 			$result["status"] = 0;
 			$result["url"] = $uploadfile;
+			$result["webm"] = $this->toWebM($uploadfile);
 			$result["original_name"] = $file['name'];
 
 		} else {
@@ -33,10 +34,21 @@ class UploadHelper {
 		if(file_put_contents($uploadfile,file_get_contents($url))){
 			$result["status"] = 0;
 			$result["url"] = $uploadfile;
+			$result["webm"] = $this->toWebM($uploadfile);
 			$result["original_name"] = "";
 		}
 		return $result;
 		
+	}
+	
+	function toWebM($path){
+		$ffmpeg = \FFMpeg\FFMpeg::create();
+		$video = $ffmpeg->open($path);
+		$format = new \FFMpeg\Format\Video\WebM();
+		$format->setAdditionalParameters(array("-auto-alt-ref","0"));
+		if($video
+			->save($format, "uploads/".basename($path,"gif")."webm"))
+		 return "uploads/".basename($path,"gif")."webm";
 	}
 }
 

@@ -19,19 +19,34 @@ function displayUploadForm(){
 	document.getElementById("upload-div").style.display="block";
 }
 var remainingToLoad = 0;
-function createItemElement(url){
-	
+function createItemElement(gif){
+		remainingToLoad++;
+
+		console.log(gif.video);
+		var url = gif.url;
 		var item = document.createElement("div");
 		item.classList.add("grid-item");
-		var img = document.createElement("img");
-		if(dontAutoPlay)
-	           img.setAttribute("data-gifffer",url);
-		else
-		   img.setAttribute("src",url);
-		remainingToLoad++;
-		img.onload= function(){ 
-			remainingToLoad --;
-			msnry.layout();
+		
+		var img =undefined;
+		if(gif.video == null){
+			img	= document.createElement("img");
+			if(dontAutoPlay)
+				   img.setAttribute("data-gifffer",url);
+			else
+			   img.setAttribute("src",gif.url);
+			img.onload= function(){ 
+				remainingToLoad --;
+				msnry.layout();
+			}
+		} else {
+			img	= document.createElement("video");
+			img.src = gif.video;
+			img.autoplay = true;
+			img.loop = true;
+			img.onloadedmetadata = function(){ 
+				remainingToLoad --;
+				msnry.layout();
+			}
 		}
 		Gifffer();
 		var subT = document.createElement("div");
@@ -80,7 +95,7 @@ function createItemElement(url){
 			url += "&query="+query;
 		getJSON(url,function(status, data){
 			for(var gif of data){
-					addItemElement(gif['url']);
+					addItemElement(gif);
 			}
 			
 		});

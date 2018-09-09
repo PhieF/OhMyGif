@@ -9,7 +9,7 @@
 		
 	}
 .grid-item { width: 300px; }
-.grid-item img{
+.grid-item img,.grid-item video{
 	width:100%;
 }
 #gif-grid{
