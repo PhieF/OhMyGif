@@ -5,6 +5,8 @@ Open source Gif repository
 
 test it : https://omg.phie.ovh
 
+![screenshot](screenshot.png)
+
 
 ## Install
 
