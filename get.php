@@ -8,7 +8,7 @@ header('Content-Disposition: attachment; filename="data.json"');
 if(!empty($_GET["page"]))
 	$page = $_GET["page"];
 if(!empty($_GET["query"])){
-	echo json_encode($gif_db_helper->search($_GET["query"],$_GET["start"]));
+	echo json_encode($gif_db_helper->search($_GET["query"],$_GET["start"]+0));
 }
 else if(!empty($_GET["export"])){
 	echo json_encode($gif_db_helper->get(null, null));
