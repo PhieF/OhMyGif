@@ -112,13 +112,17 @@ function createItemElement(gif){
 			for(var gif of data){
 					addItemElement(gif);
 			}
+			hasLoaded = true;
 			
 		});
 	}
+	var hasLoaded = false;
 	getList(0);
 	window.onscroll = function(ev) {
-	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-200 && remainingToLoad<=5) {
-		getList(current+20);
+	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-200 && remainingToLoad<=5 && hasLoaded) {
+			console.log(window.innerHeight + window.scrollY);
+			hasLoaded = false;
+			getList(current+20);
 	    }
 	};
 
