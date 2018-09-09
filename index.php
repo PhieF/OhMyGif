@@ -30,7 +30,7 @@ else{
 		if(substr($url,0, strlen("https://giphy.com/gifs/")) == "https://giphy.com/gifs/"){
 			echo "https://media.giphy.com/media/".substr($url,strrpos($url, "-")+1)."/giphy.gif";
 		}
-		$gif_db_helper->addToDb($url, $keywords,$original_name, $_POST["description"]);
+		$gif_db_helper->addToDb($url, $keywords,$original_name, $_POST["description"], $_POST["category"],$_POST["title"],'');
 		
 	}
 ?>

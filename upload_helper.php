@@ -24,6 +24,20 @@ class UploadHelper {
 		return $result;
 		
 	}
+	
+	function downloadGif($url){
+		$uploaddir = 'uploads/';
+		$uploadfile = $uploaddir . md5(uniqid()).".gif";
+		$result =array();
+		$result["status"] = 1;
+		if(file_put_contents($uploadfile,file_get_contents($url))){
+			$result["status"] = 0;
+			$result["url"] = $uploadfile;
+			$result["original_name"] = "";
+		}
+		return $result;
+		
+	}
 }
 
 
