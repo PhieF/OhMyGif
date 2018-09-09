@@ -40,15 +40,17 @@ header h1{
 	margin:0px;
 }
 header input{
+	width:300px;
 	position:absolute;
 	left:50%;
-	margin-left:-100px;
-	top:7px;
+	margin-left:-150px;
+	top:8px;
 	 border: 2px solid red;
 	border-radius: 4px;
+	padding:5px;
 }
 header .upload{
-			position:absolute;
+	position:absolute;
 	right:10px;
 	top:7px;
 	color:white;
