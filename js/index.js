@@ -117,6 +117,9 @@ function createItemElement(gif){
 					addItemElement(gif);
 			}
 			hasLoaded = true;
+			setTimeout(function(){
+				msnry.layout();
+			},3000);
 			
 		});
 	}
