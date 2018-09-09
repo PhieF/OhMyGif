@@ -28,14 +28,14 @@ header{
 	left:0px;
 	position:fixed;
 	padding:0px;
-
+	height:49px;
 	margin:0px;
 	background:black;
 	color:white;
 }
 header h1{
-			padding:5px;
-			padding-left:30px;
+	padding:5px;
+	padding-left:30px;
 
 	margin:0px;
 }
