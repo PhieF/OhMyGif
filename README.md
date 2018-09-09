@@ -7,6 +7,13 @@ test it : https://omg.phie.ovh
 
 ![screenshot](screenshot.png)
 
+## Features
+
+share gifs between instances through a cron task
+
+mass download giphy gifs
+
+share on Mastodon / Pleroma should also work
 
 ## Install
 
