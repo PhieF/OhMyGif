@@ -42,7 +42,9 @@ class UploadHelper {
 	}
 	
 	function toWebM($path){
-		$ffmpeg = \FFMpeg\FFMpeg::create();
+		$ffmpeg = \FFMpeg\FFMpeg::create(array(
+			'timeout' => 3600
+		));
 		$video = $ffmpeg->open($path);
 		$format = new \FFMpeg\Format\Video\WebM();
 		$format->setAdditionalParameters(array("-auto-alt-ref","0"));
