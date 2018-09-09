@@ -50,9 +50,10 @@ while(true){
 	$json = json_decode(get_url("https://api.giphy.com/v1/gifs/trending?api_key=3eFQvabDx69SMoOemSPiYfh9FY0nzO9x&sort=desc&offset=".($i*25)));
 	foreach($json->data as $item){
 		echo $item->title;
-		echo $item->images->original->url;
+		//echo $item->images->original->url;
 		//giphy can have media media0 media1 so different urls. Therefore isUrlInDB isn't enough"
-		if(count($gif_db_helper->getByGifFileName(basename($item->images->original->url)))>0){
+		echo basename(dirname($item->images->original->url))."/".basename($item->images->original->url);
+		if(count($gif_db_helper->getByGifFileName(basename(dirname($item->images->original->url))."/".basename($item->images->original->url)))>0){
 			echo "already in db";
 			continue;
 		}

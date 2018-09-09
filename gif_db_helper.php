@@ -76,7 +76,7 @@ class GifDBHelper {
                 }
                  
                 $filename = mysqli_real_escape_string($conn,$filename);
-                $sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename'"; 
+                $sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename' or original_url like '%/$filename'"; 
 
 
                 $result = $conn->query($sql);
