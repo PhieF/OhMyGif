@@ -41,6 +41,7 @@ function createItemElement(gif){
 		} else {
 			img	= document.createElement("video");
 			img.src = gif.video;
+			img.muted = true;
 			if(!dontAutoPlay)
 				img.autoplay = true;
 			else {
