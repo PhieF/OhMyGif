@@ -43,6 +43,8 @@ else{
 		<title>Oh my gif !</title>
 		<script src="js/masonry.pkgd.min.js"></script>
 		<script src="js/gifffer.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/mastodon.js"></script>
 		 <link rel="stylesheet" type="text/css" href="design/design_index.css">
 		 
 	</head>
@@ -70,6 +72,27 @@ else{
 
 
 	</script>
+	<div id="mastodon-auth" class="mastodon-dialog">
+		<img src="img/mastodon.png"/>
+		Connect to your Mastodon account<br />
+		<br />
+		Identification tokens will be stored locally, not on our server
+		<form action="">
+		<input id="mastodon-instance" placeholder="instance address (https://instance)"/>
+		 <br />
+		<button onclick="$('#mastodon-auth').hide(); return false;">Cancel</button><button onclick="onClickAuth($('#mastodon-instance').val()); return false;">Connect</button>
+		</form>
+	</div>
+	<div id="mastodon-post" class="mastodon-dialog">
+		<img src="img/mastodon.png"/>
+		Post to your Mastodon account<br />
+		<br />
+		<form action="">
+		<input id="mastodon-post-message" placeholder="Message along with gif"/>
+		 <br />
+		<button onclick="$('#mastodon-post').hide(); return false;">Cancel</button><button id="mastodon-post-button">Send</button>
+		</form>
+	</div>
 	<div id="upload-div">
 		<div id="form-container">
 	<h2>Upload gif</h2>

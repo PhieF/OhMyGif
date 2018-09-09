@@ -76,6 +76,16 @@ function createItemElement(gif){
 		dlImg.src= "img/download.svg";
 		dl.appendChild(dlImg);
 		subT.appendChild(dl);
+		var share = document.createElement("a");
+		share.href=url
+		share.onclick=function(){
+			postOnMastodon(url);
+			return false;
+		}
+		var shareImg = document.createElement("img");
+		shareImg.src= "img/mastodon-icon.png";
+		share.appendChild(shareImg);
+		subT.appendChild(share);
 		item.appendChild(img);
 		item.appendChild(subT);
 		item.onmouseover=function(){
@@ -132,5 +142,108 @@ function createItemElement(gif){
 			getList(current+20);
 	    }
 	};
+
+
+var api = new MastodonAPI({
+                instance: localStorage.getItem("mastodon_url"),
+                api_user_token: localStorage.getItem("mastodon_token")
+            });;
+
+if (window.location.href.indexOf("?code=") !== -1) {
+                // nice, we got our auth code!
+                // lets put it into a variable
+                var authCode = window.location.href.replace(window.location.origin + window.location.pathname + "?code=", "");
+                // nice variable clusterfuck, eh?
+                // we have everything needed to access our oauth token
+                api.getAccessTokenFromAuthCode(
+                    localStorage.getItem("mastodon_client_id"),
+                    localStorage.getItem("mastodon_client_secret"),
+                    localStorage.getItem("mastodon_client_redirect_uri"),
+                    authCode,
+                    function(data) {
+						console.log(data);
+						api.setConfig("api_user_token", data["access_token"])
+						localStorage.setItem("mastodon_token", data["access_token"]);
+                        postItem(localStorage.getItem("mastodon_to_post"))
+                        localStorage.removeItem("mastodon_to_post")
+                    }
+                )
+}
+function postItem(url){
+	$("#mastodon-post").show();
+	document.getElementById("mastodon-post-button").onclick = function(event){
+		event.preventDefault();
+		$("#mastodon-post").hide();
+		var xhr = new XMLHttpRequest();
+		xhr.responseType = 'blob';
+		xhr.onload = function() {
+		var reader = new FileReader();
+			reader.onloadend = function() {
+			var byteCharacters = atob(reader.result.slice(reader.result.indexOf(',') + 1));
+			var byteNumbers = new Array(byteCharacters.length);
+			for (var i = 0; i < byteCharacters.length; i++) {
+			  byteNumbers[i] = byteCharacters.charCodeAt(i);
+			}
+			var byteArray = new Uint8Array(byteNumbers);
+			var blob = new Blob([byteArray], {type: 'video/webm'});
+			var url = URL.createObjectURL(blob);
+			var formData = new FormData();
+			formData.append('file', blob,'test.webm');
+			api.postMedia("media",
+				formData
+			,function(data){
+					const mediaId = data.id;
+					api.post("statuses", {status:$("#mastodon-post-message").val(), media_ids:[mediaId]}, function (data) {
+						
+					});
+				})
+				
+		  }
+		  reader.readAsDataURL(xhr.response);
+		};
+
+		xhr.open('GET', url);
+		xhr.send();
+	};
+	
+	
+}
+function onClickAuth(url){
+	localStorage.setItem("mastodon_url",url);
+	api = new MastodonAPI({
+                instance: url,
+                api_user_token: localStorage.getItem("mastodon_token")
+            });
+	api.registerApplication("OhMyGif",
+	 window.location.protocol+"//"+window.location.hostname+window.location.pathname, // redirect uri, we will need this later on
+	["write"], //scopes
+	"", //website on the login screen
+	function(data) {
+		// we got our application
+		// lets save it to our browser storage
+		localStorage.setItem("mastodon_client_id", data["client_id"]);
+		localStorage.setItem("mastodon_client_secret", data["client_secret"]);
+		localStorage.setItem("mastodon_client_redirect_uri", data["redirect_uri"]);
+		// now, that we have saved our application data, generate an oauth url and send
+		// our user to it!
+		window.location.href = api.generateAuthLink(data["client_id"],
+			data["redirect_uri"],
+			"code", // oauth method
+			["write"] //scopes
+		);
+	});
+}
+
+function postOnMastodon(url){
+	//if not auth
+
+	if (localStorage.getItem("mastodon_token") == undefined){
+		localStorage.setItem("mastodon_to_post",url);
+		$("#mastodon-auth").show();
+	}else {
+		postItem(url);
+	}
+	
+}
 
 
