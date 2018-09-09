@@ -6,19 +6,20 @@
 		margin:0px;
 		padding:0px;
 		height:100%;
+		
 	}
 .grid-item { width: 300px; }
 .grid-item img{
 	width:100%;
 }
 #gif-grid{
+
 	margin:auto;
 }
 #main{
-	
+	max-width:1200px;
 	margin:auto;
 	margin-top:50px;
-	/*max-width:1000px;*/
 }
 header{
 	z-index:10;
