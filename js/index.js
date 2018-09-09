@@ -18,6 +18,7 @@ function hideUploadForm(){
 function displayUploadForm(){
 	document.getElementById("upload-div").style.display="block";
 }
+var remainingToLoad = 0;
 function createItemElement(url){
 	
 		var item = document.createElement("div");
@@ -27,8 +28,9 @@ function createItemElement(url){
 	           img.setAttribute("data-gifffer",url);
 		else
 		   img.setAttribute("src",url);
-
+		remainingToLoad++;
 		img.onload= function(){ 
+			remainingToLoad --;
 			msnry.layout();
 		}
 		Gifffer();
@@ -85,7 +87,7 @@ function createItemElement(url){
 	}
 	getList(0);
 	window.onscroll = function(ev) {
-	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-200) {
+	    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-200 && remainingToLoad<=5) {
 		getList(current+20);
 	    }
 	};
