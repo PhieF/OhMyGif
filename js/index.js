@@ -42,6 +42,9 @@ function createItemElement(gif){
 			img	= document.createElement("video");
 			img.src = gif.video;
 			img.muted = true;
+			img.preload="auto"; 
+            img.autobuffer=true;
+
 			if(!dontAutoPlay)
 				img.autoplay = true;
 			else {
