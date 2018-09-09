@@ -114,7 +114,6 @@ class GifDBHelper {
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		$start = mysqli_real_escape_string($conn,$start);
 		if(!is_int($start))
 			$start = 0;
 		$query = mysqli_real_escape_string($conn,$query);
