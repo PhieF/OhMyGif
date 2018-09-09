@@ -51,7 +51,8 @@ while(true){
 	foreach($json->data as $item){
 		echo $item->title;
 		echo $item->images->original->url;
-		if($gif_db_helper->isUrlInDB($item->images->original->url)){
+		//giphy can have media media0 media1 so different urls. Therefore isUrlInDB isn't enough"
+		if(count($gif_db_helper->getByGifFileName(basename($item->images->original->url)))>0){
 			echo "already in db";
 			continue;
 		}
