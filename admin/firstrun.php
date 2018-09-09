@@ -36,7 +36,7 @@ and !empty($_POST['password'])){
 	}
 	
 	$sql = "CREATE FULLTEXT INDEX ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."fulltext
-		ON ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif (original_name, description)";
+		ON ".mysqli_real_escape_string($conn,$_POST['tableprefix'])."gif (original_name, description, title)";
 	if ($conn->query($sql) === TRUE) {
 	} else {
 		die("Error creating table: 2" . $conn->error);
