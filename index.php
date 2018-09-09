@@ -36,6 +36,7 @@ else{
 		<meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0">
 		<title>Oh my gif !</title>
 		<script src="js/masonry.pkgd.min.js"></script>
+		<script src="js/gifffer.min.js"></script>
 		 <link rel="stylesheet" type="text/css" href="design/design_index.css">
 		 
 	</head>

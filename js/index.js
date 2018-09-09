@@ -1,4 +1,5 @@
 var grid = document.getElementById("gif-grid");
+const dontAutoPlay = true;
 var msnry = new Masonry( '#gif-grid', { itemSelector: ".grid-item", columnWidth: 300 ,fitWidth: true});
 function getParameterByName(name, url) {
 	if (!url) {
@@ -22,11 +23,15 @@ function createItemElement(url){
 		var item = document.createElement("div");
 		item.classList.add("grid-item");
 		var img = document.createElement("img");
-		img.src=url;
-		img.onload= function(){
-								msnry.layout();
+		if(dontAutoPlay)
+	           img.setAttribute("data-gifffer",url);
+		else
+		   img.setAttribute("src",url);
 
+		img.onload= function(){ 
+			msnry.layout();
 		}
+		Gifffer();
 		var subT = document.createElement("div");
 		subT.classList.add("sub");
 		var dl = document.createElement("a");
