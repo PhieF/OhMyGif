@@ -143,6 +143,9 @@ function createItemElement(gif){
 	    }
 	};
 
+function getCurrentUrl(){
+	return window.location.protocol+"//"+window.location.hostname+window.location.pathname;
+}
 
 var api = new MastodonAPI({
                 instance: localStorage.getItem("mastodon_url"),
@@ -212,12 +215,11 @@ function onClickAuth(url){
 	localStorage.setItem("mastodon_url",url);
 	api = new MastodonAPI({
                 instance: url,
-                api_user_token: localStorage.getItem("mastodon_token")
+                api_user_token: localStorage.getItem("mastodon_token"),
             });
-	api.registerApplication("OhMyGif",
-	 window.location.protocol+"//"+window.location.hostname+window.location.pathname, // redirect uri, we will need this later on
+	api.registerApplication("OhMyGif",getCurrentUrl(), // redirect uri, we will need this later on
 	["write"], //scopes
-	"", //website on the login screen
+	getCurrentUrl(), //website on the login screen
 	function(data) {
 		// we got our application
 		// lets save it to our browser storage
