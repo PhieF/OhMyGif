@@ -64,33 +64,45 @@ class GifDBHelper {
 		return $return;
 		
 	}
+	function getCount(){
+		global $CONFIG;
+		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
+		// Check connection
+		if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+		}
+		$sql = "SELECT count(id) as count FROM ".$CONFIG["table_prefix"]."gif";
+		$result = $conn->query($sql);
+		$return = array();
+		if ($result->num_rows > 0) 
+			return $row = $result->fetch_assoc()['count'];
+	}
+	
+	function getByGifFileName($filename){
+		global $CONFIG;
+
+		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
+		// Check connection
+		if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+		}
+		 
+		$filename = mysqli_real_escape_string($conn,$filename);
+		$sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename' or original_url like '%/$filename'"; 
 
 
-        function getByGifFileName($filename){
-                global $CONFIG;
+		$result = $conn->query($sql);
+		$return = array();
+		if ($result->num_rows > 0) {
+				// output data of each row
+				while($row = $result->fetch_assoc()) {
+						array_push($return,$row);
+				}
+		}
 
-                $conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
-                // Check connection
-                if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                }
-                 
-                $filename = mysqli_real_escape_string($conn,$filename);
-                $sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename' or original_url like '%/$filename'"; 
+		return $return;
 
-
-                $result = $conn->query($sql);
-                $return = array();
-                if ($result->num_rows > 0) {
-                        // output data of each row
-                        while($row = $result->fetch_assoc()) {
-                                array_push($return,$row);
-                        }
-                }
-
-                return $return;
-
-        }
+	}
 
 
 	

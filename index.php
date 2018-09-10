@@ -66,6 +66,8 @@ else{
 	<div id="footer">
 		<a href="https://github.com/PhieF/OhMyGif">Sources</a>
 		 <a href="get.php?export=1" download>Export</a>
+		 
+		 <?php echo $gif_db_helper->getCount();?> gif in this instance
 
 	</div>
 	<script src="js/index.js">
