@@ -80,9 +80,10 @@ else{
 		<br />
 		Identification tokens will be stored locally, not on our server
 		<form action="">
-		<input id="mastodon-instance" placeholder="instance address (https://instance)"/>
-		 <br />
-		<button onclick="$('#mastodon-auth').hide(); return false;">Cancel</button><button onclick="onClickAuth($('#mastodon-instance').val()); return false;">Connect</button>
+		<input id="mastodon-instance" type="text" placeholder="instance address (https://instance)"/>
+		<br />
+		<br />
+		<a onclick="$('#mastodon-auth').hide(); return false;" href="">Cancel</a><button onclick="onClickAuth($('#mastodon-instance').val()); return false;">Connect</button>
 		</form>
 	</div>
 	<div id="mastodon-post" class="mastodon-dialog">
@@ -90,9 +91,10 @@ else{
 		Post to your Mastodon account<br />
 		<br />
 		<form action="">
-		<input id="mastodon-post-message" placeholder="Message along with gif"/>
-		 <br />
-		<button onclick="$('#mastodon-post').hide(); return false;">Cancel</button><button id="mastodon-post-button">Send</button>
+		<input id="mastodon-post-message" placeholder="Message along with gif" type="text"/> <br />
+		<input id="mastodon-post-via" type="checkbox" checked /> Promote: "Send via http://instance"
+		 <br /><br />	
+		<a onclick="$('#mastodon-post').hide(); return false;" href="">Cancel</a><button id="mastodon-post-button" type="submit">Send</button>
 		</form>
 	</div>
 	<div id="upload-div">

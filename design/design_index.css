@@ -112,22 +112,34 @@ input{
 	padding:10px;
 	background:white;
 	position:fixed;
-	top: 60px;
-	height: 400px;
+	top: 50px;
+	max-width:calc(100% - 20px);
+	max-height:calc(100% - 60px);
+	overflow-y:auto;
+	height: 300px;
 	width:400px;
-	left:50%;
 	text-align:center;
 	display:none;
-	margin-left:-200px;
 	box-shadow: 1px 1px 5px;
+	margin:auto;
+    left: 0;
+    right: 0;
 }
 .mastodon-dialog img{
-	width:200px;
+	width:120px;
 	margin:auto;
 	margin-bottom:10px;
 	margin-top:10px;
-
+	max-width:100%;
 	display : block;
+}
+.mastodon-dialog input[type="text"]{
+	width:calc(100% - 50px);
+	padding:5px;
+}
+.mastodon-dialog button, .mastodon-dialog a{
+	display:inline-block;
+	width:50%;
 }
 #giffile{
 			 border: 0px;

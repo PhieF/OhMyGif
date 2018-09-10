@@ -193,7 +193,7 @@ function postItem(url){
 				formData
 			,function(data){
 					const mediaId = data.id;
-					api.post("statuses", {status:$("#mastodon-post-message").val(), media_ids:[mediaId]}, function (data) {
+					api.post("statuses", {status:$("#mastodon-post-message").val()+(document.getElementById("mastodon-post-via").checked ? " via "+window.location.protocol+"//"+window.location.hostname+window.location.pathname:""), media_ids:[mediaId]}, function (data) {
 						
 					});
 				})
