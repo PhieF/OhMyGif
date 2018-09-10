@@ -80,8 +80,8 @@ header .upload{
 }
 .sub img{
 	height:35px;
-	width:45px;
-	
+	width:auto;
+	padding:10px;	
 }
 #upload-div{
 	display: none;
