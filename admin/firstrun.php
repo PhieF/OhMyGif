@@ -23,7 +23,7 @@ and !empty($_POST['password'])){
 		video VARCHAR(255) UNIQUE,
 		original_name VARCHAR(255) NOT NULL,
 		description TEXT NOT NULL,
-		category VARCHAR(100)
+		category VARCHAR(100),
 		title VARCHAR(255),
 		original_url VARCHAR(255),
 		date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
