@@ -79,7 +79,7 @@ function createItemElement(gif){
 		var share = document.createElement("a");
 		share.href=url
 		share.onclick=function(){
-			postOnMastodon(url);
+			postOnMastodon(gif.video != undefined ? gif.video : url);
 			return false;
 		}
 		var shareImg = document.createElement("img");
