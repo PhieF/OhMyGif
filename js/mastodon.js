@@ -75,6 +75,7 @@ var MastodonAPI = function (config) {
             // ajax function
             return $.ajax({
                 url: url,
+		crossDomain: true,
                 type: "GET",
                 data: queryData,
                 headers: addAuthorizationHeader({}, config.api_user_token),
@@ -92,6 +93,7 @@ var MastodonAPI = function (config) {
             return $.ajax({
                 url: url,
                 type: "POST",
+		crossDomain: true,
                 data: postData,
                 headers: addAuthorizationHeader({}, config.api_user_token),
                 success: onAjaxSuccess(url, "POST", callback, false),
@@ -109,6 +111,7 @@ var MastodonAPI = function (config) {
                 url: url,
                 type: "POST",
                 data: postData,
+		crossDomain: true,
                 contentType: false,
                 processData: false,
                 headers: addAuthorizationHeader({}, config.api_user_token),
@@ -121,6 +124,7 @@ var MastodonAPI = function (config) {
             var url = apiBase + endpoint;
             return $.ajax({
                 url: url,
+		crossDomain: true,
                 type: "DELETE",
                 headers: addAuthorizationHeader({}, config.api_user_token),
                 success: onAjaxSuccess(url, "DELETE", callback, false),
@@ -169,6 +173,7 @@ var MastodonAPI = function (config) {
             var url = apiBase + "apps";
             return $.ajax({
                 url: url,
+		crossDomain: true,
                 type: "POST",
                 data: {
                     client_name: client_name,
@@ -188,6 +193,7 @@ var MastodonAPI = function (config) {
             var url = config.instance + "/oauth/token";
             return $.ajax({
                 url: url,
+		crossDomain: true,
                 type: "POST",
                 data: {
                     client_id: client_id,

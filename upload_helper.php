@@ -26,15 +26,22 @@ class UploadHelper {
 		
 	}
 	
-	function downloadGif($url){
+	function downloadGif($url, $webm){
 		$uploaddir = 'uploads/';
-		$uploadfile = $uploaddir . md5(uniqid()).".gif";
+		$name = md5(uniqid());
+		$uploadfile = $uploaddir . $name.".gif";
 		$result =array();
 		$result["status"] = 1;
-		if(file_put_contents($uploadfile,file_get_contents($url))){
+		if(file_put_contents($uploadfile,tor_file_get_contents($url))){
 			$result["status"] = 0;
 			$result["url"] = $uploadfile;
-			$result["webm"] = $this->toWebM($uploadfile);
+			if(empty($webm))
+				$result["webm"] = $this->toWebM($uploadfile);
+			else{
+			   $uploadfile = $uploaddir . $name.".webm";
+			   if(file_put_contents($uploadfile,tor_file_get_contents($webm)))
+				$result["webm"] = $uploadfile;
+			}
 			$result["original_name"] = "";
 		}
 		return $result;
@@ -42,6 +49,7 @@ class UploadHelper {
 	}
 	
 	function toWebM($path){
+		echo "starting encoding";
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
 			'timeout' => 3600
 		));

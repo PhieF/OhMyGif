@@ -130,7 +130,7 @@ class GifDBHelper {
 			$start = 0;
 		$query = mysqli_real_escape_string($conn,$query);
 
-		$sql = "SELECT id,url, video,original_name,description,category, title, original_url  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ('$query' IN NATURAL LANGUAGE MODE) limit ".$start.",".($start+20);
+		$sql = "SELECT id,url, video,original_name,description,category, title, original_url  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ('$query') OR description like '%$query%' OR title like '%$query%' OR original_name like '%$query%' limit ".$start.",".($start+20);
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {

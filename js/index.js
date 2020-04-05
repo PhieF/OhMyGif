@@ -30,7 +30,7 @@ function createItemElement(gif){
 		var img =undefined;
 		if(gif.video == null){
 			img	= document.createElement("img");
-			if(dontAutoPlay)
+			if(dontAutoPlay&&false)
 				   img.setAttribute("data-gifffer",url);
 			else
 			   img.setAttribute("src",gif.url);
