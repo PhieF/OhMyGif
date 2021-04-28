@@ -52,10 +52,88 @@ else{
 		<script src="js/gifffer.min.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/mastodon.js"></script>
+                <script src="js/api2.js?t=rerer"></script>
 		 <link rel="stylesheet" type="text/css" href="design/design_index.css">
 		 
 	</head>
 <body>
+<script>
+function parseFragment() {
+    const fragmentString = (window.location.hash || "?");
+    //alert(fragmentString);
+    return new URLSearchParams(fragmentString.substring(Math.max(fragmentString.indexOf('?'), 0)));
+}
+
+function assertParam(fragment, name) {
+    const val = fragment.get(name);
+    return val;
+}
+
+function handleError(e) {
+    console.error(e);
+    document.getElementById("container").innerText = "There was an error with the widget. See JS console for details.";
+}
+  try {
+        const qs = parseFragment();
+        const  widgetId = assertParam(qs, 'widgetId'); //"customwidget_%40phie%3Alostpod.me_1611237180448";
+        const userId = assertParam(qs, 'userId'); 
+        let isSticky = false;
+
+        // Set up the widget API as soon as possible to avoid problems with the client
+        const widgetApi = new mxwidgets.WidgetApi(widgetId);
+ //       widgetApi.requestCapability(mxwidgets.MatrixCapabilities.StickerSending);
+//	widgetApi.requestCapabilityToSendMessage("m.video");
+widgetApi.requestCapabilityToSendMessage("m.image");
+        widgetApi.on("ready", function() {
+            // Fill in the basic widget details now that we're allowed to operate.
+           /* document.getElementById("main").innerHTML = "Hello <span id='userId'></span>!<br /><br />"
+                + "Currently stuck on screen: <span id='stickyState'></span><br /><br />"
+                + "<button onclick='toggleSticky()'>Toggle sticky state</button>";*/
+
+            // Fill in the user ID using innerText to avoid XSS
+//            document.getElementById("userId").innerText = userId;
+	    console.log("reaaady");
+            // Update the UI and ensure that we end up not sticky to start
+            //sendStickyState();
+	   widgetApi.transport.send(mxwidgets.WidgetApiFromWidgetAction.SendImage, {
+               name: "pet",
+               file: "mastodon-icon.png",
+               content: {
+                 msgtype: "m.image",
+                 url: "https://omg.phie.ovh/img",
+                 info: {
+            	 mimetype: "image/png"
+                 }
+               }
+           }).then();
+        });
+
+        // Start the widget as soon as possible too, otherwise the client might time us out.
+        widgetApi.start();
+	console.log("staaart");
+        function toggleSticky() {
+            // called by the button when clicked - toggle the sticky state
+            isSticky = !isSticky;
+            sendStickyState();
+		
+        }
+
+        function updateStickyState() {
+            document.getElementById("stickyState").innerText = isSticky.toString();
+        }
+
+        function sendStickyState() {
+            updateStickyState(); // update first to make the UI go faster than the request
+            widgetApi.setAlwaysOnScreen(isSticky).then(function(r) {
+                console.log("[Widget] Client responded with: ", r);
+            }).catch(function(e) {
+                handleError(e);
+            });
+        }
+    } catch (e) {
+        handleError(e);
+    }
+</script>
 
 
 	<header>
