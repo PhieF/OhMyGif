@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
@@ -15,10 +18,12 @@ else{
 	$gif_db_helper = new GifDBHelper();
 	$original_name="";
 	$video = "";
-        $thumbnail = "";
+    $thumbnail = "";
+
 	if(!empty($_FILES['giffile']['name'])){
 		require_once('upload_helper.php'); 
 		$upload = new UploadHelper();
+
 		$result = $upload->saveUploadedGif($_FILES['giffile']);
 		if($result["status"] != 0)
 			die("An error occured");
@@ -52,7 +57,8 @@ else{
 		<script src="js/gifffer.min.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/mastodon.js"></script>
-                <script src="js/api2.js?t=rerer"></script>
+        <script src="js/api2.js?t=rerer"></script>
+
 		 <link rel="stylesheet" type="text/css" href="design/design_index.css">
 		 
 	</head>
@@ -110,8 +116,8 @@ widgetApi.requestCapabilityToSendMessage("m.image");
 
         // Start the widget as soon as possible too, otherwise the client might time us out.
         widgetApi.start();
-	console.log("staaart");
-        function toggleSticky() {
+
+		function toggleSticky() {
             // called by the button when clicked - toggle the sticky state
             isSticky = !isSticky;
             sendStickyState();
@@ -152,7 +158,7 @@ widgetApi.requestCapabilityToSendMessage("m.image");
 		<a href="https://github.com/PhieF/OhMyGif">Sources</a>
 		 <a href="get.php?export=1" download>Export</a>
 		 
-		 <?php echo $gif_db_helper->getCount();?> gif in this instance
+		 <?php echo $gif_db_helper->getCount();?> gif in this server
 
 	</div>
 	<script src="js/index.js">

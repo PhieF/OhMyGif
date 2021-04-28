@@ -23,7 +23,7 @@ function createItemElement(gif){
 		remainingToLoad++;
 
 		console.log(gif.video);
-		var url = gif.url;
+		var url = "get_gif.php?gif_id="+gif.id;
 		var item = document.createElement("div");
 		item.classList.add("grid-item");
 		
@@ -117,7 +117,7 @@ img.title = gif.description;
 		var share = document.createElement("a");
 		share.href=url
 		share.onclick=function(){
-			postOnMastodon(gif.video != undefined ? gif.video : url);
+			postOnMastodon(gif);
 			return false;
 		}
 		var shareImg = document.createElement("img");
@@ -205,12 +205,13 @@ if (window.location.href.indexOf("?code=") !== -1) {
 						console.log(data);
 						api.setConfig("api_user_token", data["access_token"])
 						localStorage.setItem("mastodon_token", data["access_token"]);
-                        postItem(localStorage.getItem("mastodon_to_post"))
+                        postItem(JSON.parse(localStorage.getItem("mastodon_to_post")))
                         localStorage.removeItem("mastodon_to_post")
                     }
                 )
 }
-function postItem(url){
+function postItem(gif){
+	var url = gif.video != undefined ? gif.video : url
 	$("#mastodon-post").show();
 	document.getElementById("mastodon-post-button").onclick = function(event){
 		event.preventDefault();
@@ -234,9 +235,12 @@ function postItem(url){
 				formData
 			,function(data){
 					const mediaId = data.id;
-					api.post("statuses", {status:$("#mastodon-post-message").val()+(document.getElementById("mastodon-post-via").checked ? " via "+window.location.protocol+"//"+window.location.hostname+window.location.pathname:""), media_ids:[mediaId]}, function (data) {
+					api.put("media/"+mediaId, {description:gif.description}, function (data) {
+						api.post("statuses", {status:$("#mastodon-post-message").val()+(document.getElementById("mastodon-post-via").checked ? " via "+window.location.protocol+"//"+window.location.hostname+window.location.pathname:""), media_ids:[mediaId]}, function (data) {
 						
+						});	
 					});
+					
 				})
 				
 		  }
@@ -274,14 +278,14 @@ function onClickAuth(url){
 	});
 }
 
-function postOnMastodon(url){
+function postOnMastodon(gif){
 	//if not auth
 
 	if (localStorage.getItem("mastodon_token") == undefined){
-		localStorage.setItem("mastodon_to_post",url);
+		localStorage.setItem("mastodon_to_post",JSON.stringify(gif));
 		$("#mastodon-auth").show();
 	}else {
-		postItem(url);
+		postItem(gif);
 	}
 	
 }

@@ -93,7 +93,24 @@ var MastodonAPI = function (config) {
             return $.ajax({
                 url: url,
                 type: "POST",
-		crossDomain: true,
+		        crossDomain: true,
+                data: postData,
+                headers: addAuthorizationHeader({}, config.api_user_token),
+                success: onAjaxSuccess(url, "POST", callback, false),
+                error: onAjaxError(url, "POST")
+            });
+        },
+        put: function (endpoint) {
+            // for POST API calls
+            var args = checkArgs(arguments);
+            var postData = args.data;
+            var callback = args.callback;
+            var url = apiBase + endpoint;
+
+            return $.ajax({
+                url: url,
+                type: "PUT",
+		        crossDomain: true,
                 data: postData,
                 headers: addAuthorizationHeader({}, config.api_user_token),
                 success: onAjaxSuccess(url, "POST", callback, false),

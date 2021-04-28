@@ -6,23 +6,26 @@ class UploadHelper {
 		$uploaddir = 'uploads/';
 		$uploadfile = $uploaddir . md5(uniqid()).".gif";
 		$result =array();
-		if($file['type'] != "image/gif"){
+		echo $file['type'];
+		if(!empty($file['type']) AND $file['type'] != "image/gif"){
 			$result["status"] = 1;
 			echo "img should be a gif";
 			return $result;
 		}
+		echo "moving";
+
 		if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
+			echo "moved";
 			$result["status"] = 0;
 			$result["url"] = $uploadfile;
 			$result["webm"] = $this->toWebM($uploadfile);
 			$result["original_name"] = $file['name'];
-                        $result["thumbnail"] = $this->getThumbnail($uploadfile);
+            $result["thumbnail"] = $this->getThumbnail($uploadfile);
 
 		} else {
 			$result["status"] = 1;
 			
 		}
-		//print_r($file);
 		return $result;
 		
 	}
@@ -43,7 +46,8 @@ class UploadHelper {
 			   if(file_put_contents($uploadfile,tor_file_get_contents($webm)))
 				$result["webm"] = $uploadfile;
 			}
-                        $result["thumbnail"] = $this->getThumbnail($uploadfile);
+            $result["thumbnail"] = $this->getThumbnail($uploadfile);
+			unlink($uploadfile);
 			$result["original_name"] = "";
 		}
 		return $result;
@@ -54,7 +58,7 @@ class UploadHelper {
 		echo "starting encoding";
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
 			'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
-      			'ffprobe.binaries' => '/usr/bin/ffprobe',
+      		'ffprobe.binaries' => '/usr/bin/ffprobe',
 			'timeout' => 3600
 		));
 		$video = $ffmpeg->open($path);
@@ -64,6 +68,26 @@ class UploadHelper {
 			->save($format, "uploads/".basename($path,"gif")."webm"))
 		 return "uploads/".basename($path,"gif")."webm";
 	}
+
+	function toGif($path){
+		$tmpPath = sys_get_temp_dir()."/ohmygif";
+		if(!file_exists($tmpPath))
+			mkdir($tmpPath);
+		$ffprobe = \FFMpeg\FFProbe::create(array(
+			'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
+      		'ffprobe.binaries' => '/usr/bin/ffprobe',
+			'timeout' => 3600
+		));
+		$duration = (int) $ffprobe->format($path)->get('duration');
+		$dimensions = $ffprobe->streams($path)->videos()->first()->getDimensions();
+		$gifPath = $tmpPath."/".basename($path,"webm")."gif";
+		// Transform
+		$ffmpeg = \FFMpeg\FFMpeg::create();
+		$ffmpegVideo = $ffmpeg->open($path);	
+		$ffmpegVideo->gif(FFMpeg\Coordinate\TimeCode::fromSeconds(0), $dimensions, $duration)->save($gifPath);
+		return $gifPath;
+	}
+
 	function getThumbnail($path){
                 echo "creating thumbnail";
                 $ffmpeg = \FFMpeg\FFMpeg::create(array(
