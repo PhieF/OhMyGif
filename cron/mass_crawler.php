@@ -89,7 +89,7 @@ function saveGiphyItem($item){
                         echo "error";
                         return true;
                 }   
-                echo $gif_db_helper->addToDb($result['url'], array(),'', $item->title,$item->title, '',$item->images->original->url, $result['webm']);
+                echo $gif_db_helper->addToDb($result['url'], array(),'', $item->title,$item->title, '',$item->images->original->url, $result['webm'], $result['thumbnail']);
 
 	return true;
 }

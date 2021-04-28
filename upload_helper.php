@@ -16,6 +16,7 @@ class UploadHelper {
 			$result["url"] = $uploadfile;
 			$result["webm"] = $this->toWebM($uploadfile);
 			$result["original_name"] = $file['name'];
+                        $result["thumbnail"] = $this->getThumbnail($uploadfile);
 
 		} else {
 			$result["status"] = 1;
@@ -42,6 +43,7 @@ class UploadHelper {
 			   if(file_put_contents($uploadfile,tor_file_get_contents($webm)))
 				$result["webm"] = $uploadfile;
 			}
+                        $result["thumbnail"] = $this->getThumbnail($uploadfile);
 			$result["original_name"] = "";
 		}
 		return $result;
@@ -51,6 +53,8 @@ class UploadHelper {
 	function toWebM($path){
 		echo "starting encoding";
 		$ffmpeg = \FFMpeg\FFMpeg::create(array(
+			'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
+      			'ffprobe.binaries' => '/usr/bin/ffprobe',
 			'timeout' => 3600
 		));
 		$video = $ffmpeg->open($path);
@@ -59,6 +63,17 @@ class UploadHelper {
 		if($video
 			->save($format, "uploads/".basename($path,"gif")."webm"))
 		 return "uploads/".basename($path,"gif")."webm";
+	}
+	function getThumbnail($path){
+                echo "creating thumbnail";
+                $ffmpeg = \FFMpeg\FFMpeg::create(array(
+                        'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
+                        'ffprobe.binaries' => '/usr/bin/ffprobe',
+                        'timeout' => 3600
+                ));
+                $video = $ffmpeg->open($path);
+		if($video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0))->save("uploads/".basename($path,"gif")."png"))
+                 return "uploads/".basename($path,"gif")."png";
 	}
 }
 

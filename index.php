@@ -15,6 +15,7 @@ else{
 	$gif_db_helper = new GifDBHelper();
 	$original_name="";
 	$video = "";
+        $thumbnail = "";
 	if(!empty($_FILES['giffile']['name'])){
 		require_once('upload_helper.php'); 
 		$upload = new UploadHelper();
@@ -24,6 +25,7 @@ else{
 		$_POST["url"] = $result["url"];
 		$original_name = $result["original_name"];
 		$video = $result["webm"];
+                $thumbnail = $result["thumbnail"];
 		
 	}
 	if(!empty($_POST["url"])){
@@ -36,7 +38,7 @@ else{
 		if(substr($url,0, strlen("https://giphy.com/gifs/")) == "https://giphy.com/gifs/"){
 			echo "https://media.giphy.com/media/".substr($url,strrpos($url, "-")+1)."/giphy.gif";
 		}
-		$gif_db_helper->addToDb($url, $keywords,$original_name, $_POST["description"], $_POST["category"],$_POST["title"],$url, $video);
+		$gif_db_helper->addToDb($url, $keywords,$original_name, $_POST["description"], $_POST["category"],$_POST["title"],$url, $video, $thumbnail);
 		
 	}
 ?>

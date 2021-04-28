@@ -2,7 +2,7 @@
 require_once('config/config.php'); 
 
 class GifDBHelper { 
-	function addToDb($url, $keywords, $originalName, $title, $description, $category, $originalUrl, $video){
+	function addToDb($url, $keywords, $originalName, $description, $title, $category, $originalUrl, $video, $thumbnail){
 		$error="";
 		global $CONFIG;
 		$conn = new mysqli($CONFIG["mysql_server"], $CONFIG["database_user"], $CONFIG['database_pswd'], $CONFIG["database"]);
@@ -18,8 +18,8 @@ class GifDBHelper {
         $originalUrl = mysqli_real_escape_string($conn,$originalUrl);
         $video = mysqli_real_escape_string($conn,$video);
 
-		$sql = "INSERT INTO ".$CONFIG["table_prefix"]."gif (url, video, original_name, description, category, title, original_url)
-		VALUES ('$url', '$video', '$originalName', '$description', '$category', '$title','$originalUrl')";
+		$sql = "INSERT INTO ".$CONFIG["table_prefix"]."gif (url, video, original_name, description, category, title, original_url, thumbnail)
+		VALUES ('$url', '$video', '$originalName', '$description', '$category', '$title','$originalUrl', '$thumbnail')";
 
 		if ($conn->query($sql) !== TRUE) {
 			$error= "Error: " . $sql . "<br>" . $conn->error;
@@ -43,7 +43,7 @@ class GifDBHelper {
 			die("Connection failed: " . $conn->connect_error);
 		}
 
-		$sql = "SELECT id,url, video,original_name,description, title, original_url, category FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
+		$sql = "SELECT id,url, video,original_name,description, title, original_url, category, thumbnail FROM ".$CONFIG["table_prefix"]."gif ORDER BY id DESC"; 
 		if(isset($start)){
 			if(!is_int($start))
 				$start = 0;
@@ -88,7 +88,7 @@ class GifDBHelper {
 		}
 		 
 		$filename = mysqli_real_escape_string($conn,$filename);
-		$sql = "SELECT id,url,original_name,description FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename' or original_url like '%/$filename'"; 
+		$sql = "SELECT id,url,original_name,description, thumbnail FROM ".$CONFIG["table_prefix"]."gif WHERE url like '%/$filename' or original_url like '%/$filename'"; 
 
 
 		$result = $conn->query($sql);
@@ -130,7 +130,7 @@ class GifDBHelper {
 			$start = 0;
 		$query = mysqli_real_escape_string($conn,$query);
 
-		$sql = "SELECT id,url, video,original_name,description,category, title, original_url  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ('$query') OR description like '%$query%' OR title like '%$query%' OR original_name like '%$query%' limit ".$start.",".($start+20);
+		$sql = "SELECT id,url, video,original_name,description,category, title, original_url, thumbnail  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ('$query') OR description like '%$query%' OR title like '%$query%' OR original_name like '%$query%' limit ".$start.",".($start+20);
 		$result = $conn->query($sql);
 		$return = array();
 		if ($result->num_rows > 0) {

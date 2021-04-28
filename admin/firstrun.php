@@ -26,7 +26,8 @@ and !empty($_POST['password'])){
 		category VARCHAR(100),
 		title VARCHAR(255),
 		original_url VARCHAR(255),
-		date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+		date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		thumbnail VARCHAR(255)
 	) ENGINE=MyISAM";
 
 	if ($conn->query($sql) === TRUE) {

@@ -28,7 +28,43 @@ function createItemElement(gif){
 		item.classList.add("grid-item");
 		
 		var img =undefined;
-		if(gif.video == null){
+		if (gif.thumbnail != null){
+			img = document.createElement("img");
+			img.src = gif.thumbnail;
+			img.alt = gif.description;
+			img.onmouseover = function(){
+				if(gif.video != null){
+				  var video = document.createElement("video");
+                                  video.src = gif.video;
+                                  video.muted = true;
+				  video.title = gif.description;
+                                  video.preload="auto"; 
+                                  video.autobuffer=true;
+var playF = function(event) {
+                                  if(!video.isPlaying && event.type != "mouseout") {
+                                        video.play();
+                                  }
+                                 else if(event.type != "mouseover") {
+                                        video.pause();
+                                  }
+                                };
+                                video.addEventListener('click', playF);
+                                video.addEventListener('mouseover', playF);
+                                video.addEventListener('mouseout', playF);
+                                   video.autoplay = true;
+				  video.loop = true;
+                                   video.onloadedmetadata = function(){
+			           img.replaceWith(video);
+					}
+				} else
+				img.src=gif.url
+			}
+			img.onload= function(){ 
+                                remainingToLoad --;
+                                msnry.layout();
+                        }
+
+		}else if(gif.video == null){
 			img	= document.createElement("img");
 			if(dontAutoPlay&&false)
 				   img.setAttribute("data-gifffer",url);
@@ -38,11 +74,13 @@ function createItemElement(gif){
 				remainingToLoad --;
 				msnry.layout();
 			}
+			img.alt = gif.description;
 		} else {
 			img	= document.createElement("video");
 			img.src = gif.video;
 			img.muted = true;
 			img.preload="auto"; 
+img.title = gif.description;
             img.autobuffer=true;
 
 			if(!dontAutoPlay)
