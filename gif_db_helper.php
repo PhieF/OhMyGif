@@ -62,6 +62,7 @@ class GifDBHelper {
 		$result = $sth->execute();
 		$return = array();
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+			$row['url']="get_gif.php?gif_id=".$row['id'];
 			array_push($return,$row);
 		}
 		
@@ -98,6 +99,7 @@ class GifDBHelper {
 		$result = $sth->execute();
 		$return = array();
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['url']="get_gif.php?gif_id=".$row['id'];
 				array_push($return,$row);
 		}
 
@@ -122,6 +124,7 @@ class GifDBHelper {
 		$result = $sth->execute();
 		$return = array();
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['url']="get_gif.php?gif_id=".$row['id'];
 				array_push($return,$row);
 		}
 
@@ -166,7 +169,8 @@ class GifDBHelper {
 		if (isset($conn->connect_error)) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		
+		if(!is_int($start))
+			$start = 0;
 		$query = $conn->quote($query);
 
 		$sql = "SELECT id,url, video,original_name,description,category, title, original_url, thumbnail  FROM ".$CONFIG["table_prefix"]."gif WHERE id IN (SELECT gif_id FROM ".$CONFIG["table_prefix"]."fulltext WHERE ".$CONFIG["table_prefix"]."fulltext MATCH $query ORDER BY rank)";
@@ -175,6 +179,7 @@ class GifDBHelper {
 		$result = $sth->execute();
 		$return = array();
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['url']="get_gif.php?gif_id=".$row['id'];
 				array_push($return,$row);
 		}
 		
@@ -185,21 +190,23 @@ class GifDBHelper {
 		global $CONFIG;
 
 		$conn = DB::Connect();
-		if ($conn->connect_error) {
+		if (isset($conn->connect_error)) {
 			die("Connection failed: " . $conn->connect_error);
 		}
 		if(!is_int($start))
 			$start = 0;
-		$query = $conn->quote($query);
+ $queryLike = $conn->quote("%".$query."%");
+		$query = $conn->quote($query);   
 
-		$sql = "SELECT id,url, video,original_name,description,category, title, original_url, thumbnail  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ('$query') OR description like '%$query%' OR title like '%$query%' OR original_name like '%$query%' limit ".$start.",".($start+20);
-		$result = $conn->query($sql);
-		$return = array();
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				array_push($return,$row);
-			}
-		}
+		$sql = "SELECT id,url, video,original_name,description,category, title, original_url, thumbnail  FROM ".$CONFIG["table_prefix"]."gif WHERE MATCH (original_name, description, title) AGAINST ($query) OR description like $queryLike OR title like $queryLike OR original_name like $queryLike limit ".$start.",".($start+20);
+$sth = $conn->prepare($sql);
+
+                $result = $sth->execute();
+                $return = array();
+		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+				$row['url']="get_gif.php?gif_id=".$row['id'];
+                                array_push($return,$row);
+                }
 		return $return;
 		
 	}

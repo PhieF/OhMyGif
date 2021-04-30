@@ -7,7 +7,6 @@ require_once('gif_db_helper.php');
 $gif_db_helper = new GifDBHelper();
 $page = 0;
 header('Content-Type: application/json');
-header('Content-Disposition: attachment; filename="data.json"');
 if(!isset($_GET["start"]))
         $_GET["start"]= 0; 
 if(!empty($_GET["page"]))

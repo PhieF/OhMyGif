@@ -75,14 +75,18 @@ class UploadHelper {
 			mkdir($tmpPath);
 		$ffprobe = \FFMpeg\FFProbe::create(array(
 			'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
-      		'ffprobe.binaries' => '/usr/bin/ffprobe',
+	      		'ffprobe.binaries' => '/usr/bin/ffprobe',
 			'timeout' => 3600
 		));
 		$duration = (int) $ffprobe->format($path)->get('duration');
 		$dimensions = $ffprobe->streams($path)->videos()->first()->getDimensions();
 		$gifPath = $tmpPath."/".basename($path,"webm")."gif";
 		// Transform
-		$ffmpeg = \FFMpeg\FFMpeg::create();
+		$ffmpeg = \FFMpeg\FFMpeg::create(array(
+                        'ffmpeg.binaries'  =>'/usr/bin/ffmpeg',
+                        'ffprobe.binaries' => '/usr/bin/ffprobe',
+                        'timeout' => 3600
+                ));
 		$ffmpegVideo = $ffmpeg->open($path);	
 		$ffmpegVideo->gif(FFMpeg\Coordinate\TimeCode::fromSeconds(0), $dimensions, $duration)->save($gifPath);
 		return $gifPath;
